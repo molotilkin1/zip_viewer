@@ -24,6 +24,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 #    endif()
 #endif()
 
+# Указываем пути для различных платформ
+if(WIN32)
+    message(STATUS "Configuring for Windows...")
+    set(CMAKE_PREFIX_PATH "C:/Qt/6.2.4/mingw_64") # Укажите путь к Qt для Windows
+    set(MINIZIP_PATH "${CMAKE_SOURCE_DIR}/minizip-ng")
+elseif(UNIX)
+    message(STATUS "Configuring for Linux...")
+    set(MINIZIP_PATH "${CMAKE_SOURCE_DIR}/minizip-ng")
+endif()
+
 find_package(QT NAMES Qt6 Qt5 COMPONENTS Widgets REQUIRED)
 find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Widgets REQUIRED)
 
@@ -59,3 +69,11 @@ add_subdirectory(minizip-ng)
 #target_link_libraries(ZipViewer PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_link_libraries(ZipViewer PRIVATE Qt5::Core Qt5::Gui Qt5::Widgets)
 target_link_libraries(ZipViewer PRIVATE minizip)
+
+# Условная настройка для Windows
+if(WIN32)
+    # Добавьте зависимости Windows, если необходимо
+    target_compile_definitions(ZipViewer PRIVATE PLATFORM_WINDOWS)
+elseif(UNIX)
+    target_compile_definitions(ZipViewer PRIVATE PLATFORM_LINUX)
+endif()
