@@ -70,7 +70,7 @@ Thumbs.db
 # --------
 *.dll
 *.exe
-minizip-ng/
+
 /build_linux/CMakeFiles/
 /build_linux/ZipViewer_autogen
 ./build-ZipViewer-Desctop-Debug/
